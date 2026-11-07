@@ -52,8 +52,11 @@ namespace Cracker
                 {
                     using (StreamReader reader = new StreamReader(AddressPath))
                     {
-                        string line = reader.ReadLine();
-                        m_Date = DateTime.Parse(line);
+                        string? line = reader.ReadLine();
+                        if (string.IsNullOrWhiteSpace(line) || !DateTime.TryParse(line, out DateTime parsedDate))
+                            return;
+
+                        m_Date = parsedDate;
 
                         int count = 0;
                         while (m_IsRunning)

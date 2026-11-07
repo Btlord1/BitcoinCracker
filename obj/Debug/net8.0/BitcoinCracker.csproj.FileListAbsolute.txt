@@ -1,0 +1,4 @@
+/workspaces/BitcoinCracker/obj/Debug/net8.0/BitcoinCracker.csproj.AssemblyReference.cache
+/workspaces/BitcoinCracker/obj/Debug/net8.0/BitcoinCracker.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/BitcoinCracker/obj/Debug/net8.0/BitcoinCracker.csproj.CoreCompileInputs.cache
+/workspaces/BitcoinCracker/obj/Debug/net8.0/BitcoinCracker.sourcelink.json

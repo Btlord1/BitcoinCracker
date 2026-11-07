@@ -4,19 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace Cracker
 {
     public class SimpleLog
     {
         private static readonly string LogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cracker.Log");
-        private static object LogLock = new object();
-        private TextBox m_TextBox;
+        private static readonly object LogLock = new object();
+        private readonly Action<string>? m_OutputAction;
 
-        public SimpleLog(TextBox textBox)
+        public SimpleLog(Action<string>? outputAction = null)
         {
-            m_TextBox = textBox;
+            m_OutputAction = outputAction;
         }
 
         public void Log(string format, params object[] args)
@@ -29,12 +28,7 @@ namespace Cracker
                     writer.WriteLine(s);
                 }
 
-                if (m_TextBox != null)
-                    m_TextBox.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        m_TextBox.AppendText(s);
-                        m_TextBox.AppendText("\n");
-                    }));
+                m_OutputAction?.Invoke(s);
             }
         }
     }

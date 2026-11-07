@@ -46,7 +46,7 @@ namespace Cracker
                 Key key = new Key(data);
                 BitcoinPubKeyAddress address = key.PubKey.GetAddress(Network.Main);
                 if (m_Loader.KeyIds.Contains(address.Hash))
-                    m_Log.Log(Cracker.Properties.Resources.CrackSuccessfulFormat, address, key.ToString(Network.Main));
+                    m_Log.Log("Cracked private key for {0}: {1}", address, key.ToString(Network.Main));
 
                 IncreaseData(data);
                 m_Counter.Increment();

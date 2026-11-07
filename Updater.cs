@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -12,23 +12,17 @@ namespace Cracker
 {
     public abstract class Updater
     {
-        private string m_Url;
+        private readonly string m_Url;
 
         public Updater(string url)
         {
             m_Url = url;
         }
-        
+
         protected string ReadJson()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(m_Url);
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using HttpClient client = new HttpClient();
+            return client.GetStringAsync(m_Url).GetAwaiter().GetResult();
         }
     }
 }

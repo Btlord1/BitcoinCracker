@@ -14,7 +14,7 @@ namespace Cracker
     {
         private DateTime m_Date;
         private int m_Count;
-        private string m_Url;
+        private string? m_Url;
 
         public AddressUpdater()
             : base("http://www.xiaonh.com/bitcoincracker/address.json")
@@ -24,19 +24,29 @@ namespace Cracker
             m_Url = null;
         }
 
-        public DateTime Date {  get { return m_Date; } }
+        public DateTime Date { get { return m_Date; } }
         public int Count { get { return m_Count; } }
-        public string Url {  get { return m_Url; } }
+        public string? Url { get { return m_Url; } }
 
         public bool Update()
         {
             try
             {
                 string json = ReadJson();
-                JObject obj = JsonConvert.DeserializeObject<JObject>(json);
-                m_Date = (DateTime)obj["Date"];
-                m_Count = (int)obj["Count"];
-                m_Url = (string)obj["Url"];
+                JObject? obj = JsonConvert.DeserializeObject<JObject>(json);
+                if (obj == null)
+                    return false;
+
+                JToken? dateToken = obj["Date"];
+                JToken? countToken = obj["Count"];
+                JToken? urlToken = obj["Url"];
+
+                if (dateToken == null || countToken == null || urlToken == null)
+                    return false;
+
+                m_Date = dateToken.Value<DateTime>();
+                m_Count = countToken.Value<int>();
+                m_Url = urlToken.Value<string>();
                 return true;
             }
             catch
